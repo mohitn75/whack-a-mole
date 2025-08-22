@@ -1,13 +1,206 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+.App {
+  background: radial-gradient(circle at center, #3a3a3a, #1a1a1a);
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Press Start 2P', monospace;
+  gap: 2rem;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+.game-board {
+  background-color: transparent;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  cursor: pointer;
+  gap: 0.5rem;
+}
+
+.row {
+  display: flex;
+  /* gap: 0.5rem; */
+}
+
+.col {
+  height: 7.5rem;
+  width: 7.5rem;
+  border: 3px solid #222;
+  background: #f4f4f4;
+  border-radius: 8px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 1.2rem;
+  font-weight: bold;
+
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.col:hover {
+  background-color: #e6e6e6;
+  transform: scale(1.05);
+  transform: rotate(2.5deg);
+}
+
+.game-toggle {
+  width: 9rem;
+  height: 3.2rem;
+  position: absolute;
+  top: 2rem;
+  right: 3rem;
+
+  border: none;
+  border-radius: 2rem;
+
+  font-size: 1.1rem;
+  font-weight: bold;
+  letter-spacing: 1px;
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+.game-toggle:hover {
+  transform: scale(1.08);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
+}
+
+/* States */
+.started {
+  background: linear-gradient(135deg, #e95454, #c92424);
+  color: white;
+  box-shadow: 0 2px 6px rgba(233, 84, 84, 0.6);
+}
+
+.stopped {
+  background: linear-gradient(135deg, #4ac94a, #2d9a2d);
+  color: white;
+  box-shadow: 0 2px 6px rgba(74, 201, 74, 0.6);
+}
+
+.scoreboard {
+  padding: 1rem 2rem;
+  min-width: 20rem;
+  max-height: 5rem;
+
+  background: linear-gradient(135deg, rgb(209, 48, 67), rgb(150, 30, 45));
+  border-radius: 12px;
+
+  font-size: 1.4rem;
+  font-weight: bold;
+  font-family: 'Press Start 2P', monospace;
+  color: #fff;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+  letter-spacing: 1px;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.scoreboard:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.5);
+}
+.board-timer{
+  display: flex;
+}
+.timer-card{
+  padding: 1rem 2rem;
+  min-width: 20rem;
+  min-height: 2rem;
+
+  background: linear-gradient(135deg, rgb(149, 204, 61), rgb(204, 233, 73));
+  border-radius: 12px;
+
+  font-size: 1.4rem;
+  font-weight: bold;
+  font-family: 'Press Start 2P', monospace;
+  color: #fff;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+  letter-spacing: 1px;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.game-over-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+
+  background-color: rgba(0, 0, 0, 0.6); /* dark overlay */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  z-index: 1000;
+}
+
+.game-over-content {
+  position: relative;
+  background: linear-gradient(135deg, #5b64d8, #4f7ce6);
+  padding: 2rem 3rem;
+  border-radius: 16px;
+  text-align: center;
+  color: #fff;
+
+  font-family: 'Press Start 2P', monospace;
+  font-size: 1.5rem;
+  letter-spacing: 1px;
+
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+  animation: popIn 0.3s ease;
+}
+
+/* Close (X) button */
+.close-btn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #fff;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.close-btn:hover {
+  transform: scale(1.2);
+  color: #222;
+}
+
+/* Small pop animation */
+@keyframes popIn {
+  0% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+.mole{
+  max-width: 6rem;
 }

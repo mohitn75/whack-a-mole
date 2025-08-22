@@ -1,23 +1,29 @@
-import logo from './logo.svg';
+import React, {useState, useEffect} from "react";
+
 import './App.css';
+import GameBoard from './GameBoard';
 
 function App() {
+  const [gameStarted, setGameStarted] = useState(false);
+
+  function handleOnClick(e){
+    setGameStarted(gameStarted => !gameStarted)
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+      
+      <div>
+        <button 
+          className={`game-toggle ${gameStarted ? "started" : "stopped"}`}
+          onClick={handleOnClick}
         >
-          Learn React
-        </a>
-      </header>
+          {gameStarted === false ? "Start Game" : "Stop Game"}
+        </button>
+        </div>
+      <div className='game-board'>
+        <GameBoard Rows={5} Cols={5} GameStarted={gameStarted} handleOnClick={handleOnClick}/>
+      </div>
     </div>
   );
 }
